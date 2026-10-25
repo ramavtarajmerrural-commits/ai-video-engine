@@ -57,7 +57,7 @@ def generate_video(prompt: str):
         video = image_clip.set_audio(audio_clip)
 
         video_path = f"static/video_{uid}.mp4"
-        video.write_videofile(video_path, fps=24, codec="libx264", audio_codec="aac")
+        video.write_videofile(video_path, fps=24, codec="libx264", audio_codec="aac",ffmpeg_params=["-pix_fmt", "yuv420p"])
 
         return f"https://ai-video-engine-zd5t.onrender.com/{video_path}"
 
