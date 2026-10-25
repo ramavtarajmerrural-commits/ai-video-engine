@@ -21,6 +21,10 @@ async def generate_voice(text, filename):
     communicate = Communicate(text, "hi-IN-MadhurNeural")
     await communicate.save(filename)
 
+@app.get("/")
+def home():
+    return {"status": "Server is running"}
+
 @app.get("/generate", response_class=PlainTextResponse)
 def generate_video(prompt: str):
     try:
