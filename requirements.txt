@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+requests
+edge-tts
+moviepy
+groq
