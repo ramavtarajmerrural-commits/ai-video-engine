@@ -59,8 +59,7 @@ def generate_video(prompt: str):
         video_path = f"static/video_{uid}.mp4"
         video.write_videofile(video_path, fps=24, codec="libx264", audio_codec="aac")
 
-        base_url = os.environ.get("RENDER_EXTERNAL_URL", "")
-        return f"{base_url}/{video_path}"
+        return f"https://ai-video-engine-zd5t.onrender.com/{video_path}"
 
     except Exception as e:
         return f"Error: {str(e)}"
