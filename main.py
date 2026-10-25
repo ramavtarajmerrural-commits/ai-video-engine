@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from groq import Groq
-from moviepy.editor import AudioFileClip, ImageClip
+from moviepy import AudioFileClip, ImageClip
 
 app = FastAPI()
 
@@ -53,15 +53,17 @@ def generate_video(prompt: str):
     with open(image_path, "wb") as f:
       f.write(res.content)
 
-    # 4. वीडियो रेंडरिंग
-    audio_clip = AudioFileClip(audio_path)
-    image_clip = ImageClip(image_path).set_duration(audio_clip.duration)
-    video = image_clip.set_audio(audio_clip)
+   # 4. वीडियो रेंडर करना
+        audio_clip = AudioFileClip(audio_path)
+        try:
+            image_clip = ImageClip(image_path).with_duration(audio_clip.duration)
+            video = image_clip.with_audio(audio_clip)
+        except AttributeError:
+            image_clip = ImageClip(image_path).set_duration(audio_clip.duration)
+            video = image_clip.set_audio(audio_clip)
 
-    video_path = f"static/video_{uid}.mp4"
-    video.write_videofile(
-        video_path, fps=24, codec="libx264", audio_codec="aac"
-    )
+        video_path = f"static/video_{uid}.mp4"
+        video.write_videofile(video_path, fps=24, codec="libx264", audio_codec="aac")
 
     # Render का बेस URL
     base_url = os.environ.get("RENDER_EXTERNAL_URL", "")
