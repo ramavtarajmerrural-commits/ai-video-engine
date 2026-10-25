@@ -30,13 +30,13 @@ def generate_video(prompt: str):
     try:
         uid = str(uuid.uuid4())[:8]
 
-        # 1. Groq Script (Llama 3.1 Instant Model)
+        # 1. Groq Script
         ai_resp = client.chat.completions.create(
             messages=[{
                 "role": "user",
                 "content": f"Write exactly 2 simple lines in pure Hindi explaining: {prompt}. Only output the narration text."
             }],
-            model="llama-3.1-8b-instant",
+            model="openai/gpt-oss-20b",
         )
         narration = ai_resp.choices[0].message.content.strip()
 
